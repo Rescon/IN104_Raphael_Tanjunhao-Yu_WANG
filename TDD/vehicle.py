@@ -1,6 +1,7 @@
 class vehicleError(Exception): pass
 class OutOfRangeError(vehicleError): pass
 
+
 class vehicle:
     def __init__(self, name, horsepower, max_speed, speed):
         self.name = name
@@ -12,12 +13,12 @@ class vehicle:
         return self.name
 
     def get_horsepower(self):
-        if self.horsepower<0:
+        if self.horsepower < 0:
             raise OutOfRangeError
         return self.horsepower
 
     def get_speed(self):
-        if self.speed <0:
+        if self.speed < 0:
             raise OutOfRangeError
         return self.speed
 
@@ -62,12 +63,12 @@ class truck(vehicle):
         self.actual_load = actual_load
 
     def get_actual_load(self):
-        if self.actual_load<0:
+        if self.actual_load < 0:
             raise OutOfRangeError
         return self.actual_load
-    
+
     def get_rated_load(self):
-        if self.rated_load<0:
+        if self.rated_load < 0:
             raise OutOfRangeError
         return self.rated_load
 
@@ -75,7 +76,7 @@ class truck(vehicle):
         self.actual_load += num
 
     def unloading(self, num):
-        #make sure that we even have that much load to unload
+        # make sure that we even have that much load to unload
         if num > self.actual_load:
             print("Truck does not have that much load")
             raise OutOfRangeError
@@ -107,12 +108,12 @@ class car(vehicle):
         self.actual_passenger = actual_passenger
 
     def get_actual_passenger(self):
-        if self.actual_passenger<0:
+        if self.actual_passenger < 0:
             raise OutOfRangeError
         return self.actual_passenger
 
     def get_rated_passenger_capacity(self):
-        if self.rated_passenger_capacity<0:
+        if self.rated_passenger_capacity < 0:
             raise OutOfRangeError
         return self.rated_passenger_capacity
 
@@ -120,10 +121,10 @@ class car(vehicle):
         self.actual_passenger += num
 
     def get_off(self, num):
-        if num<0 or num>self.actual_passenger:
-            print("Input needs to be postive")
+        if num < 0 or num > self.actual_passenger:
+            print("Input needs to be positive")
             raise OutOfRangeError
-        
+
         self.actual_passenger -= num
 
     def is_overload(self):
