@@ -31,9 +31,7 @@ int **Copy_Grille(int **grille){
             a[i][j] = grille[i][j];
         }
     }
-    int **b = a;
-    free(a);
-    return b;
+    return a;
 }
 
 //L'opération correspondante “haut”,, retourner false s'il n'y a pas de changement de la grille
@@ -74,8 +72,10 @@ bool Move_Up(int **grille){
     
     //Comparer si la grille a changé avant et après l'opération
     if(Is_Equal(a, grille)){
+        free(a);
         return false;
     }else{
+        free(a);
         return true;
     }
 }
@@ -118,8 +118,10 @@ bool Move_Down(int **grille){
     
     //Comparer si la grille a changé avant et après l'opération
     if(Is_Equal(a, grille)){
+        free(a);
         return false;
     }else{
+        free(a);
         return true;
     }
 }
@@ -161,8 +163,10 @@ bool Move_Left(int **grille){
     
     //Comparer si la grille a changé avant et après l'opération
     if(Is_Equal(a, grille)){
+        free(a);
         return false;
     }else{
+        free(a);
         return true;
     }
 }
@@ -205,8 +209,11 @@ bool Move_Right(int **grille){
     
     //Comparer si la grille a changé avant et après l'opération
     if(Is_Equal(a, grille)){
+        free(a);
         return false;
     }else{
+        free(a);
         return true;
     }
 }
+

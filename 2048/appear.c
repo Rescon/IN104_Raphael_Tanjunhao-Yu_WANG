@@ -1,5 +1,5 @@
 //
-//  random_appear.c
+//  appear.c
 //  2048
 //
 
@@ -11,23 +11,21 @@
 
 //Trouvez les positions libres et retournez leur index
 struct position *Find_Empty_Position(int **grille){
-    struct position *a = NULL;
+    struct position *position_empty = NULL;
     int num = Count_Empty(grille);
     if(num > 0){
-        a = malloc(sizeof(struct position) * num);
+        position_empty = malloc(sizeof(struct position) * num);
         int i,j,k = 0;
         for(i = 0;i < SIZE;i++){
             for (j = 0;j < SIZE;j++){
                 if(grille[i][j] == 0){
-                    a[k].x = i;
-                    a[k].y = j;
+                    position_empty[k].x = i;
+                    position_empty[k].y = j;
                     k++;
                 }
             }
         }
     }
-    struct position *position_empty = a;
-    free(a);
     return position_empty;
 }
 
@@ -48,4 +46,6 @@ void Random_Appear(int **grille){
     }else{
         grille[position_empty[a].x][position_empty[a].y] = 2;
     }
+    
+    free(position_empty);
 }
