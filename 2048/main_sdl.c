@@ -20,14 +20,25 @@
 #define WINDOW_HEIGHT (480)
 #define SCREEEN_BPP (32)
 #define MS (300)
+
+int indexFindr(int number){
+	int index = 0;
+	while (number>2){
+		number = number/2;
+		index ++;
+	}
+	return index;
+}
+
+
 int main(int argc, char const *argv[])
 {
 	srand((unsigned)time(NULL));
 
-	//initialiser la grille pour fair la calcul
+	//Creer la grille de jeu initlae generee
 	int** grille = Creer_Grille();
-	if (!grille){
-		printf("Error en initialisation de la grille:%s\n", SDL_GetError());
+	if (grille==NULL){
+		printf("Error en initialisation de la grille");
 		return -1;
 	}
 	//initialiser SDL
@@ -120,6 +131,7 @@ int main(int argc, char const *argv[])
 		SDL_Quit();
 	}
 	//les faires en texture
+	SDL_Texture* *textureList = malloc(10*sizeof(SDL_Texture*));
 	SDL_Texture* tex2 = SDL_CreateTextureFromSurface(rend,image_2);
 	SDL_FreeSurface(image_2);
 	SDL_Texture* tex4 = SDL_CreateTextureFromSurface(rend,image_4);
@@ -142,13 +154,29 @@ int main(int argc, char const *argv[])
 	SDL_FreeSurface(image_1024);
 	SDL_Texture* tex2048 = SDL_CreateTextureFromSurface(rend,image_2048);
 	SDL_FreeSurface(image_2048);
+	textureList[0] = tex2;
+	textureList[1] = tex4;
+	textureList[2] = tex8;
+	textureList[3] = tex16;
+	textureList[4] = tex32;
+	textureList[5] = tex64;
+	textureList[6] = tex128;
+	textureList[7] = tex256;
+	textureList[8] = tex512;
+	textureList[9] = tex1024;
+	textureList[10] = tex2048;
+
 
 	SDL_Rect destTitle;
-	SDL_QueryTexture(tex2048,NULL,NULL,&destTitle.w,&destTitle.h);
+	SDL_QueryTexture(textureList[10],NULL,NULL,&destTitle.w,&destTitle.h);
 	destTitle.w = WINDOW_WIDTH;
 	destTitle.h = WINDOW_HEIGHT;
 	destTitle.x = 0;
 	destTitle.y = WINDOW_HEIGHT;
+
+	//test
+	SDL_Rect** destList;
+
 
 	//le mettre in 1 quand on veut le fermer
 	int close_command = 0;
@@ -158,7 +186,8 @@ int main(int argc, char const *argv[])
 	int down = 0;
 	int left = 0;
 	int right = 0;
-
+	SDL_Rect** destGrille = malloc(16*sizeof(SDL_Rect));
+	if (destGrille==NULL){printf("Error\n");}
 	//loop d'animation
 	while(!close_command){
 		SDL_Event event;
@@ -204,23 +233,47 @@ int main(int argc, char const *argv[])
 			destTitle.y = (int) y_pos;
 
 			//copy texture de 2048 en surface de la destination (destTitle)
-			SDL_RenderCopy(rend,tex2048,NULL,&destTitle);
+			SDL_RenderCopy(rend,textureList[10],NULL,&destTitle);
 			SDL_RenderPresent(rend);
 
 			y_pos -=(long) MS/60;
 			SDL_Delay(1000/60);
 		}
-		/*
-		le jeu ici
+		SDL_RenderClear(rend);
+		Affiche_Grille(grille);
+		//L'affichage
 
-		*/
+		SDL_RenderClear(rend);
+		for(int i = 0; i<SIZE;i++){
+			printf("i= %d",i );
+			for(int j = 0; j<SIZE; j++){
+				printf("j=%d\n",j );
+				//n'affich pas le 0
+				if (grille[i][j] != 0 ){
+					//trouver l'index de l'image
+					int p = indexFindr(grille[i][j]);
+					int test = grille[i][j];
+					printf("%d\n",p);
 
+					SDL_QueryTexture(textureList[p],NULL,NULL,&destTitle.w,&destTitle.h);
+					destTitle.w = WINDOW_WIDTH/4;
+					destTitle.h = WINDOW_WIDTH/4;
+					destTitle.x = j*WINDOW_WIDTH/4;
+					destTitle.y = i*WINDOW_HEIGHT/4;
+					SDL_RenderCopy(rend,textureList[p],NULL,&destTitle);
+
+				}
+			}
+		}
+		SDL_RenderPresent(rend);
 
 
 
 
 
 	}
+	free(destGrille);
+	free(textureList);
 	SDL_DestroyRenderer(rend);
 	SDL_DestroyWindow(window);
 	SDL_Quit();
