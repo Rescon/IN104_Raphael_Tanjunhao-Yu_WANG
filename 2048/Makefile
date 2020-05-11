@@ -2,10 +2,10 @@
 COMPILER := gcc
 
 #compiler flags
-CFLAGS := `sdl2-config --cflags --libs` -ggdb3 -O0 --std=c99 -Wall -lSDL2_image -lm
+CFLAGS := `sdl-config --cflags --libs` -ggdb3 -O0 --std=c99 -Wall -lSDL_image -lm
 
 #source files
-SOURCE := main_sdl.c appear.c check.c grille.c move.c
+SOURCE := main_sdl.c appear.c check.c grille.c move.c affiche_sdl.c
 
 #object files
 OBJECT := $(SOURCE:.c=.o)
