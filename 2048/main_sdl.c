@@ -62,6 +62,12 @@ int main(int argc, char const *argv[])
         while(continuer){
             SDL_WaitEvent(&event);
             switch(event.type){
+                case SDL_QUIT:
+                    printf("Vous avez forcé la fin du jeu.\n");
+                    Free_Grille(grille);
+                    free(image);
+                    SDL_Quit();
+                    return EXIT_SUCCESS;                  
 
                 //L'événement du clavier
                 case SDL_KEYUP:
@@ -69,18 +75,22 @@ int main(int argc, char const *argv[])
                     switch(operation){
 
                         //Fonctionne selon le choix du joueur
+		        case SDLK_UP:
                         case SDLK_w:
                             operation_result = Move_Up(grille);
                             continuer = 0;
                             break;
+			case SDLK_LEFT:
                         case SDLK_a:
                             operation_result = Move_Left(grille);
                             continuer = 0;
                             break;
+			case SDLK_DOWN:
                         case SDLK_s:
                             operation_result = Move_Down(grille);
                             continuer = 0;
                             break;
+			case SDLK_RIGHT:
                         case SDLK_d:
                             operation_result = Move_Right(grille);
                             continuer = 0;
@@ -98,6 +108,8 @@ int main(int argc, char const *argv[])
                         default:
                             break;
                         }
+
+
             }
         }
         
