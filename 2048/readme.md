@@ -13,9 +13,9 @@ gcc -Wall main.c appear.c appear.h check.c check.h grille.c grille.h move.c move
 
 ***
 Deuxieme version: un joue de 2048 avec le graphique
+Vous pouvez appuyer sur la touche 'ESC' à mi-chemin du jeu pour quitter
 
 Implémentation:
 gcc main_sdl.c affiche_sdl.h affiche_sdl.c appear.h appear.c check.h check.c grille.h grille.c move.h move.c $(sdl-config --cflags --libs) -lSDL_image -o 2048.x
 
 ou il est possible de compiler avec le Makefile qui inclus.
-
