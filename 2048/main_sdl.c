@@ -1,7 +1,7 @@
 //
 // main_sdl.c
 // 2048
-// 
+//
 
 #include <stdio.h>
 #include <stdlib.h>
@@ -25,21 +25,17 @@ int main(int argc, char const *argv[])
     //Générer une graine de nombre aléatoire liée à l'horloge
     srand((unsigned)time(NULL));
 
-	// Initialisation de la SDL
-    SDL_Init(SDL_INIT_VIDEO); 
+    // Initialisation de la SDL
+    SDL_Init(SDL_INIT_VIDEO);
 
     // Ouverture de la fenêtre
-    SDL_Surface* ecran = SDL_SetVideoMode(WINDOW_WIDTH, WINDOW_HEIGHT, SCREEEN_BPP, SDL_HWSURFACE); 
+    SDL_Surface* ecran = SDL_SetVideoMode(WINDOW_WIDTH, WINDOW_HEIGHT, SCREEEN_BPP, SDL_HWSURFACE);
 
     //Charger toutes les images
     SDL_Surface** image = Load_Image();
-    
-    //Le processus de lecture de la saisie au clavier ne nécessite pas la touche Entrée et n'est plus affiché
-    system("stty raw");
-    system("stty -echo");
 
     //Créer la grille de jeu initiale générée
-	int** grille = Creer_Grille();
+    int** grille = Creer_Grille();
     if(grille == NULL){
         printf("Le jeu n'a pas pu s'initialiser.\n");
         return -1;
@@ -54,37 +50,57 @@ int main(int argc, char const *argv[])
     
     bool operation_result = false;
     
-    char operation;
-    
+    //Déterminer l'événement du clavier et enregistrer les valeurs d'entrée du clavier.
+    SDL_Event event;
+    SDLKey operation;
+    int continuer;
     
     //Jouez à chaque tour
     while(result == go_on){
-        
-        //Enregistrer les actions choisies par le joueur
-        system("stty raw");
-        system("stty -echo");
-        operation = getchar();
-        
-        //Lorsque l'entrée est illégale, le joueur doit entrer à nouveau
-        while((operation != 'w')&&(operation != 'a')&&(operation != 's')&&(operation !='d')){
-        	operation = getchar();
+        //Si la valeur d'entrée du clavier n'est pas dans la valeur spécifiée, continuez d'attendre l'entrée.
+        continuer = 1;
+        while(continuer){
+            SDL_WaitEvent(&event);
+            switch(event.type){
+
+                //L'événement du clavier
+                case SDL_KEYUP:
+                    operation = event.key.keysym.sym;
+                    switch(operation){
+
+                        //Fonctionne selon le choix du joueur
+                        case SDLK_w:
+                            operation_result = Move_Up(grille);
+                            continuer = 0;
+                            break;
+                        case SDLK_a:
+                            operation_result = Move_Left(grille);
+                            continuer = 0;
+                            break;
+                        case SDLK_s:
+                            operation_result = Move_Down(grille);
+                            continuer = 0;
+                            break;
+                        case SDLK_d:
+                            operation_result = Move_Right(grille);
+                            continuer = 0;
+                            break;
+
+                        //Appuyez sur ESC pour quitter
+                        case SDLK_ESCAPE:
+                            printf("Vous avez forcé la fin du jeu.\n");
+                            Free_Grille(grille);
+                            free(image);
+                            SDL_Quit();
+                            return EXIT_SUCCESS;
+
+                        //En attente de la prochaine entrée
+                        default:
+                            break;
+                        }
+            }
         }
         
-        //Fonctionne selon le choix du joueur
-        switch(operation){
-            case 'w':
-                operation_result = Move_Up(grille);
-                break;
-            case 'a':
-                operation_result = Move_Left(grille);
-                break;
-            case 's':
-                operation_result = Move_Down(grille);
-                break;
-            case 'd':
-                operation_result = Move_Right(grille);
-                break;
-        }
         
         //Génère aléatoirement un 2 (75%) ou un 4 (25%) en position libre lorsque l'opération change de grille
         if(operation_result){
@@ -107,9 +123,9 @@ int main(int argc, char const *argv[])
     Free_Grille(grille);
     free(image);
  
- 	// Arrêt de la SDL
-    SDL_Quit(); 
+     // Arrêt de la SDL
+    SDL_Quit();
  
- 	// Fermeture du programme
+     // Fermeture du programme
     return EXIT_SUCCESS;
 }
