@@ -19,3 +19,10 @@ Implémentation:
 gcc main_sdl.c affiche_sdl.h affiche_sdl.c appear.h appear.c check.h check.c grille.h grille.c move.h move.c $(sdl-config --cflags --libs) -lSDL_image -o 2048.x
 
 ou il est possible de compiler avec le Makefile qui inclus.
+
+***
+Troisième version: l'intelligence artificielle
+L'intelligence artificielle jugera de la situation actuelle et choisira la meilleure action.
+
+Implémentation:
+gcc main_ai.c ai_choice.h ai_choice.c evalue.h evalue.c affiche_sdl.h affiche_sdl.c appear.h appear.c check.h check.c grille.h grille.c move.h move.c $(sdl-config --cflags --libs) -lSDL_image -lm -o 2048.x
