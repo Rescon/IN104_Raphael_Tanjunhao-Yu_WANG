@@ -1,7 +1,7 @@
 //
 // main_sdl.c
 // 2048
-//
+// 
 
 #include <stdio.h>
 #include <stdlib.h>
@@ -25,17 +25,17 @@ int main(int argc, char const *argv[])
     //Générer une graine de nombre aléatoire liée à l'horloge
     srand((unsigned)time(NULL));
 
-    // Initialisation de la SDL
-    SDL_Init(SDL_INIT_VIDEO);
+	// Initialisation de la SDL
+    SDL_Init(SDL_INIT_VIDEO); 
 
     // Ouverture de la fenêtre
-    SDL_Surface* ecran = SDL_SetVideoMode(WINDOW_WIDTH, WINDOW_HEIGHT, SCREEEN_BPP, SDL_HWSURFACE);
+    SDL_Surface* ecran = SDL_SetVideoMode(WINDOW_WIDTH, WINDOW_HEIGHT, SCREEEN_BPP, SDL_HWSURFACE); 
 
     //Charger toutes les images
     SDL_Surface** image = Load_Image();
 
     //Créer la grille de jeu initiale générée
-    int** grille = Creer_Grille();
+	int** grille = Creer_Grille();
     if(grille == NULL){
         printf("Le jeu n'a pas pu s'initialiser.\n");
         return -1;
@@ -101,7 +101,7 @@ int main(int argc, char const *argv[])
                             printf("Vous avez forcé la fin du jeu.\n");
                             Free_Grille(grille);
                             free(image);
-                            SDL_Quit();
+                            SDL_Quit(); 
                             return EXIT_SUCCESS;
 
                         //En attente de la prochaine entrée
@@ -135,9 +135,9 @@ int main(int argc, char const *argv[])
     Free_Grille(grille);
     free(image);
  
-     // Arrêt de la SDL
-    SDL_Quit();
+ 	// Arrêt de la SDL
+    SDL_Quit(); 
  
-     // Fermeture du programme
+ 	// Fermeture du programme
     return EXIT_SUCCESS;
 }
