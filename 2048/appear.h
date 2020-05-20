@@ -12,6 +12,8 @@ struct position{
     int y;
 };
 
+struct position *Find_Empty_Position(int **grille);
+
 //Génère aléatoirement un 2 (75%) ou un 4 (25%) en position libre
 void Random_Appear(int **grille);
 

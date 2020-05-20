@@ -60,7 +60,7 @@ enum end Result_Game(int **grille){
     //Si 2048 apparaît, il est jugé comme une victoire.
     for(int i = 0;i < SIZE;i++){
         for(int j = 0;j < SIZE;j++){
-            if(grille[i][j] == 1024){
+            if(grille[i][j] == 2048){
                 return win;
             }
         }

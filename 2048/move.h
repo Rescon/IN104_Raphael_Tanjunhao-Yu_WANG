@@ -7,6 +7,8 @@
 #define move_h
 #include <stdbool.h>
 
+int **Copy_Grille(int **grille);
+
 //L'opération correspondante “haut”, retourner false s'il n'y a pas de changement de la grille
 bool Move_Up(int **grille);
 
